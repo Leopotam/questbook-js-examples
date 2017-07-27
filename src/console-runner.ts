@@ -12,29 +12,30 @@ export default class ConsoleRunner {
             if (page) {
                 // logics
                 if (page.logics) {
-                    for (let i = 0; i < page.logics.length; i++) {
-                        questDoc.processLogic(page.logics[i]);
+                    for (const logic of page.logics) {
+                        questDoc.processLogic(logic);
                     }
                 }
                 // texts
-                for (let i = 0; i < page.texts.length; i++) {
-                    console.log(questDoc.processText(page.texts[i]));
+                for (const text of page.texts) {
+                    console.log(questDoc.processText(text));
                 }
-                if (page.choices.length === 1 && !page.choices[0].text) {
-                    questDoc.makeChoice(0);
+                // check for single choice without text (auto redirection)
+                if (questDoc.makeAutoChoice(page)) {
                     render();
                     return;
                 }
                 // choices
                 for (let i = 0; i < page.choices.length; i++) {
                     const choice = page.choices[i];
-                    if (!choice.condition || questDoc.processLogic(choice.condition)) {
-                        console.log(`${i + 1}. ${page.choices[i].text}`);
+                    if (questDoc.isChoiceVisible(choice)) {
+                        console.log(`${i + 1}. ${choice.text}`);
                     }
                 }
                 // user input
                 rl.question('> ', (answer) => {
-                    questDoc.makeChoice(parseInt(answer, 10) - 1);
+                    const choiceId = parseInt(answer, 10) - 1;
+                    questDoc.makeChoice(page.choices[choiceId]);
                     render();
                 });
             } else {

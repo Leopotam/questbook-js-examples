@@ -1,6 +1,6 @@
 {
   "name": "questbook-js-examples",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Examples of QuestBook javascript implementation",
   "main": "out/index.js",
   "scripts": {
@@ -32,6 +32,6 @@
     "typescript": "^2.4.2"
   },
   "dependencies": {
-    "questbook": "^1.0.1"
+    "questbook": "^1.0.2"
   }
 }
